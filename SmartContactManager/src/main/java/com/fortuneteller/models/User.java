@@ -12,6 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="User_Master")
@@ -19,12 +23,21 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
+	@NotBlank(message = "Name should not be blank")
+	@Size(min = 2 , max = 45, message = "2 to 45 character are allowed only") 
 	private String userName;
 	@Column(unique = true)
+	@NotBlank(message = "Email is required")
+	@Email(message = "Invalid email format")
+	@Pattern(regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$", 
+	message = "Please enter a valid email address")
 	private String userEmail;
 	@Column(unique = true)
 	private String userUserName;
 	private String userImgURL;
+	@NotBlank(message = "Password is required")
+	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+     message = "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character.")
 	private String userPassword;
 	private String userRole;
 	@Column(length = 500)
@@ -104,7 +117,13 @@ public class User {
 	public void setContactList(List<Contacts> contactList) {
 		this.contactList = contactList;
 	}
-	
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail + ", userUserName="
+				+ userUserName + ", userImgURL=" + userImgURL + ", userPassword=" + userPassword + ", userRole="
+				+ userRole + ", userDiscription=" + userDiscription + ", is_user_active=" + is_user_active
+				+ ", userPhoneNumber=" + userPhoneNumber + ", contactList=" + contactList + "]";
+	}
 	
 	
 }

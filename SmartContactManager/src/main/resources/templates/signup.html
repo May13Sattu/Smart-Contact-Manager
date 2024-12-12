@@ -15,35 +15,58 @@
 				<img class="mx-auto d-block" alt="" src="" style="width: 50px" th:src="@{/image/register_icon.png}">
 				</div>
 					<h1 class="text-center">Register here!!!</h1>
-					<form action="" th:action="@{/do_register}" method="post">
+					<form novalidate="novalidate" action="" th:action="@{/do_register}" method="post" th:object="${user}">
+						<!-- <div th:if="${message}" th:classappend="${message.type}" class="alert" role="alert">
+   							 <p th:text="${session.message.content}"></p>  
+   							 <th:block th:if="${message}"></th:block>
+						</div> -->
+						
+						<div th:if="${message}" th:classappend="${message.type}" class="alert" role="alert">
+
+                			<p class="text-center" th:text="${message.content}" ></p>
+  						</div>
+
 						<!-- NAME START -->
 						<div class="form-group">
-							<label for="name_feild" class="form-label">Full Name</label> <input
-								type="text" class="form-control" id="user_name"
+							<label for="name_feild" class="form-label">Full Name</label> 
+							<input 
+								name="userName"
+								type="text" class="form-control" 
+								id="user_name"
 								aria-describedby="emailHelp" placeholder="Enter here"
-								required="enabled">
+								th:value="${user.userName}"
+								th:classappend="${#fields.hasErrors('userName') ? 'is-invalid' : ''}">
+							<div class="invalid-feedback text-center" th:if="${#fields.hasErrors('userName')}" 
+         					th:text="${#fields.errors('userName')}"></div>
 						</div>
 						<!-- NAME ENDED -->
 						<!--Email START  -->
 						<div class="form-group">
 							<label for="email_feild" class="form-label">Email</label> <input
+								name="userEmail"
 								type="email" class="form-control" id="user_email"
 								aria-describedby="emailHelp" placeholder="Enter here"
-								required="enabled">
+								th:value="${user.userEmail}"
+								th:classappend = "${#fields.hasErrors('userEmail') ? 'is-invalid' : ''}">
+								<div class = "invalid-feedback" th:if="${#fields.hasErrors('userEmail')}" 
+								th:text="${#fields.errors('userEmail')}"></div>
 						</div>
 						<!-- EMAIL ENDED -->
 						<!-- PASSWORD STARTED -->
 						<div class="form-group">
 							<label for="passwor_feild" class="form-label">Password</label> <input
+								name="userPassword"
 								type="password" class="form-control" id="user_password"
 								aria-describedby="emailHelp" placeholder="Enter here"
-								required="enabled">
+								th:classappend = "${#fields.hasErrors('userPassword') ? 'is-invalid' : ''}">
+								<div class = "invalid-feedback" th:if="${#fields.hasErrors('userPassword')}"
+								th:text= "${#fields.errors('userPassword')}"></div>
 						</div>
 						<!-- <PASSWORD ENDED -->
 						<!-- ABOUT AREA -->
 						<div class="form-group">
-							<textarea placeholder="Enter something yourself" name=""
-								id="user_about" rows="8" class="form-control"></textarea>
+							<textarea placeholder="Enter something yourself" name="userDiscription"
+								id="userDiscription" rows="5" class="form-control" th:text="${user.userDiscription}"></textarea>
 						</div>
 						<!-- ABOUT AREA ENDED -->
 						<div class="container text-center">
@@ -52,10 +75,11 @@
 								Reset</button>
 						</div>
 						<!--TERM AND AGREE  -->
-						<div class="form-group from-check">
+						<div class="form-group from-check text-center">
 						<input type="checkbox" name="agreement" class="form-check-input" id="agreement"/>
 						<label for="agreement">Accept term and condition</label>
 						</div>
+						
 					</form>
 				</div>
 			</div>
